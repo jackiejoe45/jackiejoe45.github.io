@@ -4,302 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ben Charles Abdul - Portfolio</title>
-    <style>
-        /* Normalize CSS */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        /* Variables for themes */
-        :root {
-            /* Default theme (dark with gold) */
-            --background-color: #121212;
-            --text-color: #f5f5f5;
-            --accent-color: #FFD700;
-            --secondary-bg: #1e1e1e;
-            --border-color: #333;
-            --hover-color: #2a2a2a;
-            --nav-bg: rgba(18, 18, 18, 0.95);
-        }
-
-        .light-theme {
-            --background-color: #ffffff;
-            --text-color: #121212;
-            --accent-color: #D22B2B;
-            --secondary-bg: #f5f5f5;
-            --border-color: #ddd;
-            --hover-color: #f0f0f0;
-            --nav-bg: rgba(255, 255, 255, 0.95);
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            transition: all 0.3s ease;
-        }
-
-        /* Layout structure with main content and right margin */
-        .page-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        .main-content {
-            flex: 0 0 60%;
-            padding: 80px 2rem 2rem; /* Top padding to account for navbar */
-            overflow-y: auto;
-        }
-
-        .right-margin {
-            flex: 0 0 40%;
-            position: relative; /* Changed to relative for positioning child elements */
-            padding-top: 80px; /* Top padding to account for navbar */
-        }
-
-        /* Sidebar content container - will be positioned relative to viewport */
-        .sidebar-content-wrapper {
-            position: sticky;
-            top: 80px; /* Same as navbar height + some padding */
-            height: calc(100vh - 80px); /* Full height minus navbar */
-            overflow-y: auto; /* Make the sidebar content scrollable */
-            padding: 0 1.5rem;
-        }
-
-        /* Navbar styles */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background-color: var(--nav-bg);
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-        }
-
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: var(--accent-color);
-        }
-
-        .navbar-controls {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .theme-toggle, .download-btn {
-            background-color: transparent;
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            padding: 0.5rem 1rem;
-            border-radius: 3px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s;
-        }
-
-        .theme-toggle:hover, .download-btn:hover {
-            background-color: var(--accent-color);
-            color: var(--background-color);
-        }
-
-        .theme-toggle svg, .download-btn svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        header {
-            margin-bottom: 2rem;
-        }
-
-        h1, h2, h3 {
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-        }
-
-        .contact-info {
-            margin-bottom: 1.5rem;
-        }
-
-        .section {
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background-color: var(--secondary-bg);
-            border-radius: 5px;
-            border-left: 4px solid var(--accent-color);
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative; /* Add position relative for offset calculations */
-        }
-
-        .section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            background-color: var(--hover-color);
-        }
-
-        .section-content {
-            display: none;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .section.active .section-content {
-            display: block;
-        }
-
-        ul {
-            list-style-position: inside;
-            margin-left: 1rem;
-        }
-
-        li {
-            margin-bottom: 0.5rem;
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: var(--secondary-bg);
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            right: 0;
-            top: 100%;
-        }
-
-        .dropdown-content a {
-            color: var(--text-color);
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: var(--hover-color);
-        }
-
-        .show {
-            display: block;
-        }
-
-        a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        a:hover {
-            font-weight: bold;
-        }
-
-        .project, .experience {
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .project:last-child, .experience:last-child {
-            border-bottom: none;
-        }
-        
-        /* Skills categories */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        
-        .skill-category {
-            margin-bottom: 1rem;
-        }
-        
-        .skill-category h3 {
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-        
-        /* Certificate styling */
-        .certificate {
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .certificate:last-child {
-            border-bottom: none;
-        }
-        
-        /* Right margin content styling */
-        .detail-content {
-            padding: 1rem;
-            background-color: var(--hover-color);
-            border-radius: 5px;
-            margin-bottom: 1rem;
-            transition: opacity 0.3s ease;
-        }
-        
-        .detail-content h3 {
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        footer {
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        @media (max-width: 768px) {
-            .page-container {
-                flex-direction: column;
-            }
-            
-            .main-content {
-                flex: 1 0 auto;
-                padding: 70px 1rem 1rem;
-            }
-            
-            .right-margin {
-                flex: 1 0 auto;
-            }
-            
-            .sidebar-content-wrapper {
-                position: static;
-                height: auto;
-                padding: 1rem;
-            }
-            
-            .navbar {
-                padding: 0.5rem 1rem;
-            }
-            
-            .navbar-brand {
-                font-size: 1.2rem;
-            }
-            
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="page-container">
@@ -325,7 +32,7 @@
                     </svg>
                     <span>Theme</span>
                 </button>
-                <div class="dropdown">
+                <!-- <div class="dropdown">
                     <button class="download-btn" id="downloadBtn">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -339,7 +46,7 @@
                         <a href="#" id="dataScientist">Data Scientist</a>
                         <a href="#" id="uiuxDesigner">UI/UX Designer</a>
                     </div>
-                </div>
+                </div> -->
             </div>
         </nav>
 
@@ -353,109 +60,55 @@
             <div class="section" id="aboutme">
                 <h2>About Me</h2>
                 <div class="section-content">
-                    <p>To bridge the hardware-software gap using technical skills gained through a competitive Computer Engineering degree. I am passionate about building innovative solutions that solve real-world problems and am skilled in both software and hardware development.</p>
-                </div>
+                    <p>
+                    I'm a Computer Engineering Major with a passion for Software Development and Engineering.
+                    My other interests include User Interface / User Experience and Robotics. I am passionate about building innovative solutions that solve real-world problems and am skilled in both software and hardware development.</p>
+                    </div>
             </div>
 
-            <div class="section" id="education">
-                <h2>Education</h2>
+            <div class="section" id="skills">
+                <h2>Skills</h2>
                 <div class="section-content">
-                    <div class="education-item">
-                        <h3>Ashesi University</h3>
-                        <p>BSc. Computer Engineering | Expected Date of Graduation: Jun 2025</p>
-                        <p><strong>Relevant Courses:</strong></p>
-                        <p>Data Structures & Algorithms, Operating Systems, IoT, Networks and Data Communications, Object-Oriented Programming, Embedded Systems, Capstone, Deep Learning, Computer Architecture</p>
-                    </div>
-                    
-                    <div class="education-item">
-                        <h3>ALX Software Engineering Program</h3>
-                        <p>Software Engineering | Nov 2023 - Jan 2025</p>
-                        <ul>
-                            <li>A rigorous, hands-on program covering software engineering foundations and advanced concepts.</li>
-                            <li>Validated strong performance in foundational sprints, achieving an average of 103.56% over nine months.</li>
-                            <li>Gained hands-on experience in Full Stack Development, DevOps, Algorithms, and System Design.</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="education-item">
-                        <h3>Opoku Ware School</h3>
-                        <p>General Science (WASSCE) | Sep 2018 – Jul 2021</p>
-                    </div>
-                </div>
-            </div>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h3>Programming & Development</h3>
+                            <p>Python, Java, C, HTML, CSS, JavaScript, SQL, PHP, React, JSON, Data Structures, Algorithms, Object-Oriented Programming</p>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3>Tools & Technologies</h3>
+                            <p>Git, GitHub, MATLAB, Arduino, Postman, Bash, DevOps, Emacs, Vim, Regexes, Unit Testing, Virtual Machines, Beautiful Soup, Thonny, ProjectLibre, MIPs, Jupyter, Developer Tools, Hugging Face, Whisper</p>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3>AI & Machine Learning</h3>
+                            <p>AI Chatbots, Prompt Engineering, Deep Learning</p>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3>Computer Science Fundamentals</h3>
+                            <p>Computer Architecture, Operating Systems Concepts, Databases, Debugging</p>
+                        </div>
 
-            <div class="section" id="certificates">
-                <h2>Certificates</h2>
-                <div class="section-content">
-                    <div class="certificate">
-                        <h3>Sololearn CSS</h3>
-                        <p>Completed comprehensive training in CSS styling, layouts, and responsive design techniques.</p>
-                    </div>
-                    
-                    <div class="certificate">
-                        <h3>Sololearn HTML</h3>
-                        <p>Mastered HTML structure, semantics, and best practices for web development.</p>
-                    </div>
-                    
-                    <div class="certificate">
-                        <h3>Sololearn Responsive Web Design</h3>
-                        <p>Learned techniques for creating websites that work seamlessly across all device sizes.</p>
-                    </div>
-                    
-                    <div class="certificate">
-                        <h3>Extern</h3>
-                        <p>Completed externship program with IgniteXL, demonstrating excellence in venture capital research.</p>
-                    </div>
-                    
-                    <div class="certificate">
-                        <h3>ALX</h3>
-                        <p>Ongoing comprehensive software engineering certification program.</p>
-                    </div>
-                </div>
-            </div>
+                        <div class="skill-category">
+                            <h3>Embedded Systems & Simulations</h3>
+                            <p>Logism, STMicroelectronics, Geogebra, Simulink, WaveForms, CAD, Lego EV3</p>
+                        </div>
 
-            <div class="section" id="achievements">
-                <h2>Achievements/Awards</h2>
-                <div class="section-content">
-                    <ul>
-                        <li>Dean's List</li>
-                        <li>Arduino-Based Coding Competition Winner, Ashesi Arm-y</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="section" id="experience">
-                <h2>Work Experience</h2>
-                <div class="section-content">
-                    <div class="experience">
-                        <h3>Automation Ghana</h3>
-                        <p>Software Engineer (Intern) | August - September 2024</p>
-                        <ul>
-                            <li>Developed an Electron web app for integration with a batch controller to track fuel queues, improving real-time operational visibility.</li>
-                            <li>Designed Human Machine Interfaces using DOPSoft, ensuring smooth communication with PLC systems.</li>
-                            <li>Conducted rigorous testing of PLC systems for operational efficiency and reliability.</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="experience">
-                        <h3>IgniteXL (Venture Capital Fund), Silicon Valley</h3>
-                        <p>Extern (Remote) | February - March 2024</p>
-                        <ul>
-                            <li>Investigated and analyzed emerging pre-seed stage startups within the wellness technology sector, aligning findings with IgniteXL's investment strategy.</li>
-                            <li>Crafted comprehensive investment memoranda, synthesizing research insights and offering actionable recommendations to stakeholders.</li>
-                            <li>Acknowledged with a Certificate of Outstanding Completion in recognition of consistently high-quality performance evaluations.</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="experience">
-                        <h3>Benbells Mothercare, Accra - Ghana</h3>
-                        <p>Sales Assistant and IT personnel (part-time) | Oct 2020 – May 2024</p>
-                        <ul>
-                            <li>Reduced operational costs by 10% by bringing bicycles and tricycle assembly in-house.</li>
-                            <li>Regularly updated sales management systems, preventing wastage and enabling efficient planning.</li>
-                            <li>Oversaw the creation of the company website to boost reach and conversions.</li>
-                            <li>Added the business to Google Maps, resulting in a notable increase in geographical reach and visibility.</li>
-                        </ul>
+                        <div class="skill-category">
+                            <h3>Development Boards & Embedded Systems</h3>
+                            <p>Raspberry Pi Pico, Raspberry Pi 4, Arduino, STM32, ESP32</p>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3>Design & Presentation Tools</h3>
+                            <p>Canva, Adobe XD, Figma, Clipchamp, Microsoft Office Suite</p>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3>Soft Skills</h3>
+                            <p>Strong Communication, Leadership, Teamwork, Analytical Thinking, Problem Solving</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -526,6 +179,118 @@
                         <p>2025</p>
                         <p>Urinalyis Dashboard illustrated in figma</p>
                     </div>
+                    <div class="project">
+                        <h3>Twi Transcription Model</h3>
+                        <p>Nov 2025 - Dec 2025</p>
+                        <ul>
+                            <li>Developed a fine-tuned Whisper model for transcribing audio in the Asanti-Twi language.</li>
+                            <li>Achieved a Word Error Rate (WER) of 14% on the test set.</li>
+                            <li><a href="https://huggingface.co/jackiejoe45/twi_trained_whisper" target="_blank">View on Hugging Face</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="education">
+                <h2>Education</h2>
+                <div class="section-content">
+                    <div class="education-item">
+                        <h3>Ashesi University</h3>
+                        <p>BSc. Computer Engineering | Expected Date of Graduation: Jun 2025</p>
+                        <p><strong>Relevant Courses:</strong></p>
+                        <p>Data Structures & Algorithms, Operating Systems, IoT, Networks and Data Communications, Object-Oriented Programming, Embedded Systems, Capstone, Deep Learning, Computer Architecture</p>
+                    </div>
+                    
+                    <div class="education-item">
+                        <h3>ALX Software Engineering Program</h3>
+                        <p>Software Engineering | Nov 2023 - Jan 2025</p>
+                        <ul>
+                            <li>A rigorous, hands-on program covering software engineering foundations and advanced concepts.</li>
+                            <li>Validated strong performance in foundational sprints, achieving an average of 103.56% over nine months.</li>
+                            <li>Gained hands-on experience in Full Stack Development, DevOps, Algorithms, and System Design.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="education-item">
+                        <h3>Opoku Ware School</h3>
+                        <p>General Science (WASSCE) | Sep 2018 – Jul 2021</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="certificates">
+                <h2>Certificates</h2>
+                <div class="section-content">
+                    <div class="certificate">
+                        <h3>Sololearn CSS</h3>
+                        <p>Completed comprehensive training in CSS styling, layouts, and responsive design techniques.</p>
+                    </div>
+                    
+                    <div class="certificate">
+                        <h3>Sololearn HTML</h3>
+                        <p>Mastered HTML structure, semantics, and best practices for web development.</p>
+                    </div>
+                    
+                    <div class="certificate">
+                        <h3>Sololearn Responsive Web Design</h3>
+                        <p>Learned techniques for creating websites that work seamlessly across all device sizes.</p>
+                    </div>
+                    
+                    <div class="certificate">
+                        <h3>Extern</h3>
+                        <p>Completed externship program with IgniteXL, demonstrating excellence in venture capital research.</p>
+                    </div>
+                    
+                    <div class="certificate">
+                        <h3>ALX</h3>
+                        <p>Comprehensive software engineering certification program.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="experience">
+                <h2>Work Experience</h2>
+                <div class="section-content">
+                    <div class="experience">
+                        <h3>Automation Ghana</h3>
+                        <p>Software Engineer (Intern) | August - September 2024</p>
+                        <ul>
+                            <li>Developed an Electron web app for integration with a batch controller to track fuel queues, improving real-time operational visibility.</li>
+                            <li>Designed Human Machine Interfaces using DOPSoft, ensuring smooth communication with PLC systems.</li>
+                            <li>Conducted rigorous testing of PLC systems for operational efficiency and reliability.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="experience">
+                        <h3>IgniteXL (Venture Capital Fund), Silicon Valley</h3>
+                        <p>Extern (Remote) | February - March 2024</p>
+                        <ul>
+                            <li>Investigated and analyzed emerging pre-seed stage startups within the wellness technology sector, aligning findings with IgniteXL's investment strategy.</li>
+                            <li>Crafted comprehensive investment memoranda, synthesizing research insights and offering actionable recommendations to stakeholders.</li>
+                            <li>Acknowledged with a Certificate of Outstanding Completion in recognition of consistently high-quality performance evaluations.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="experience">
+                        <h3>Benbells Mothercare, Accra - Ghana</h3>
+                        <p>Sales Assistant and IT personnel (part-time) | Oct 2020 – May 2024</p>
+                        <ul>
+                            <li>Reduced operational costs by 10% by bringing bicycles and tricycle assembly in-house.</li>
+                            <li>Regularly updated sales management systems, preventing wastage and enabling efficient planning.</li>
+                            <li>Oversaw the creation of the company website to boost reach and conversions.</li>
+                            <li>Added the business to Google Maps, resulting in a notable increase in geographical reach and visibility.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="achievements">
+                <h2>Achievements/Awards</h2>
+                <div class="section-content">
+                    <ul>
+                        <li>Dean's List</li>
+                        <li>Arduino-Based Coding Competition Winner, Ashesi Arm-y</li>
+                    </ul>
                 </div>
             </div>
 
@@ -574,228 +339,29 @@
                 </div>
             </div>
 
-            <div class="section" id="skills">
-                <h2>Skills</h2>
-                <div class="section-content">
-                    <div class="skills-grid">
-                        <div class="skill-category">
-                            <h3>Programming & Development</h3>
-                            <p>Python, Java, C, HTML, CSS, JavaScript, SQL, PHP, React, JSON, Data Structures, Algorithms, Object-Oriented Programming</p>
-                        </div>
-                        
-                        <div class="skill-category">
-                            <h3>Tools & Technologies</h3>
-                            <p>Git, GitHub, MATLAB, Arduino, Postman, Bash, DevOps, Emacs, Vim, Regexes, Unit Testing, Virtual Machines, Beautiful Soup, Thonny</p>
-                        </div>
-                        
-                        <div class="skill-category">
-                            <h3>AI & Machine Learning</h3>
-                            <p>AI Chatbots, Prompt Engineering, Deep Learning</p>
-                        </div>
-                        
-                        <div class="skill-category">
-                            <h3>Computer Science Fundamentals</h3>
-                            <p>Computer Architecture, Operating Systems Concepts, Databases, Debugging</p>
-                        </div>
-
-                        <div class="skill-category">
-                            <h3>Embedded Systems & Simulations</h3>
-                            <p>Logism, STMicroelectronics, Geogebra, Simulink, WaveForms, CAD, Lego EV3</p>
-                        </div>
-
-                        <div class="skill-category">
-                            <h3>Development Boards & Embedded Systems</h3>
-                            <p>Raspberry Pi Pico, Raspberry Pi 4, Arduino, STM32, ESP32</p>
-                        </div>
-                        
-                        <div class="skill-category">
-                            <h3>Design & Presentation Tools</h3>
-                            <p>Canva, Adobe XD, Figma, Clipchamp, Microsoft Office Suite</p>
-                        </div>
-                        
-                        <div class="skill-category">
-                            <h3>Soft Skills</h3>
-                            <p>Strong Communication, Leadership, Teamwork, Analytical Thinking, Problem Solving</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
             <footer>
                 <p>References available upon request</p>
                 <p><small>* WASSCE – West African Senior School Certificate Examination</small></p>
                 <p><small>** Awarded to students with a GPA of 3.5 or higher each semester</small></p>
             </footer>
         </div>
+
+        
         
         <div class="right-margin">
             <div class="sidebar-content-wrapper" id="detailsSpace">
                 <!-- Initial content for the right margin -->
                 <div class="detail-content">
+                    <p>Hi👋
+                    I'm Ben Charles.</p>
                     <h3>Welcome to my Portfolio</h3>
                     <p>Click on any section to view more details. This space will display additional information about the selected section.</p>
-                    <p>I am a Computer Engineering student with a passion for bridging the hardware-software gap. Feel free to explore my education, experience, and projects.</p>
+                    <p>I'm a Computer Engineering Major with a passion for Software Development and Engineering. Feel free to explore my education, experience, and projects.</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        // Toggle sections (clickable elements)
-        document.querySelectorAll('.section').forEach(section => {
-            section.addEventListener('click', function() {
-                this.classList.toggle('active');
-                
-                // Display relevant content in the right margin
-                const sectionId = this.id;
-                const rightMargin = document.getElementById('detailsSpace');
-                
-                let detailContent = '';
-                
-                // Customize content based on which section was clicked
-                switch(sectionId) {
-                    case 'aboutme':
-                        detailContent = `
-                            <div class="detail-content">
-                                <h3>About Me</h3>
-                                <p>I am a passionate Computer Engineering student with a strong foundation in both hardware and software development. My goal is to create innovative solutions that make a difference in people's lives.</p>
-                                <p>With experience in embedded systems, software development, and a keen interest in AI and machine learning, I am constantly looking for new challenges and opportunities to grow.</p>
-                            </div>
-                        `;
-                        break;
-                        
-                    case 'education':
-                        detailContent = `
-                            <div class="detail-content">
-                                <h3>Education Journey</h3>
-                                <p>My educational background combines rigorous academic training with practical, hands-on experience.</p>
-                                <p>At Ashesi University, I've been challenged to think critically and solve complex problems in Computer Engineering.</p>
-                                <p>The ALX Software Engineering Program has provided me with industry-relevant skills and practical experience in software development.</p>
-                            </div>
-                        `;
-                        break;
-                        
-                    case 'skills':
-                        detailContent = `
-                            <div class="detail-content">
-                                <h3>Skills Details</h3>
-                                <p><strong>Programming Languages:</strong> Proficient in Python, Java, C, and web technologies including HTML, CSS, JavaScript, SQL, and PHP.</p>
-                                <p><strong>Tools Expertise:</strong> Experienced with Git, GitHub, Arduino, Postman, Bash, DevOps workflows, text editors (Emacs, Vim), and testing methodologies.</p>
-                                <p><strong>AI & Advanced Topics:</strong> Working knowledge of AI chatbots, prompt engineering, and fundamentals of deep learning applications.</p>
-                            </div>
-                        `;
-                        break;
-                        
-                    case 'projects':
-                        detailContent = `
-                            <div class="detail-content">
-                                <h3>Project Highlights</h3>
-                                <p><strong>Canvas Dark:</strong> A browser extension that reduces eye strain with custom themes - showcasing my front-end development skills.</p>
-                                <p><strong>Attendance Recording System:</strong> Hardware-software integration project demonstrating embedded systems expertise.</p>
-                                <p><strong>E-med:</strong> Mobile application addressing real healthcare challenges in local communities.</p>
-                            </div>
-                        `;
-                        break;
-                        
-                    case 'experience':
-                        detailContent = `
-                            <div class="detail-content">
-                                <h3>Work Experience Insights</h3>
-                                <p>My professional experience spans internships, externships, and part-time roles that have given me exposure to:</p>
-                                <p>- Software engineering in industrial automation</p>
-                                <p>- Investment analysis in the venture capital space</p>
-                                <p>- IT support and web development for small businesses</p>
-                                <p>These diverse experiences have shaped my problem-solving approach and technical versatility.</p>
-                            </div>
-                        `;
-                        break;
-                        
-                    case 'certificates':
-                        detailContent = `
-                            <div class="detail-content">
-                                <h3>Certifications</h3>
-                                <p>My certifications represent my commitment to continuous learning and skill development.</p>
-                                <p>The Sololearn certificates in HTML, CSS, and Responsive Web Design validate my front-end development skills.</p>
-                                <p>My externship certification and ongoing ALX program demonstrate my dedication to professional growth in software engineering.</p>
-                            </div>
-                        `;
-                        break;
-                        
-                    default:
-                        detailContent = `
-                            <div class="detail-content">
-                                <h3>${sectionId.charAt(0).toUpperCase() + sectionId.slice(1)}</h3>
-                                <p>This section highlights my ${sectionId}. Click on other sections to learn more about different aspects of my portfolio.</p>
-                            </div>
-                        `;
-                }
-                
-                rightMargin.innerHTML = detailContent;
-                
-                // Get the position of the clicked section relative to the viewport
-                const sectionRect = this.getBoundingClientRect();
-                const sidebarContainer = document.querySelector('.sidebar-content-wrapper');
-                
-                // Calculate where the sidebar content should be positioned
-                // We want to align the top of the sidebar content with the top of the clicked section
-                const topOffset = sectionRect.top; 
-                
-                // Set the sidebar content container's scroll position
-                // This keeps the sidebar content aligned with the clicked section
-                if (window.innerWidth > 768) { // Only do this on larger screens
-                    sidebarContainer.scrollTop = topOffset - sidebarContainer.getBoundingClientRect().top + sidebarContainer.scrollTop;
-                }
-            });
-        });
 
-        // Theme toggle functionality
-        const themeToggle = document.getElementById('themeToggle');
-        const moonIcon = document.getElementById('moonIcon');
-        const sunIcon = document.getElementById('sunIcon');
-        
-        themeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('light-theme');
-            
-            // Toggle icons
-            if (document.body.classList.contains('light-theme')) {
-                moonIcon.style.display = 'none';
-                sunIcon.style.display = 'block';
-            } else {
-                moonIcon.style.display = 'block';
-                sunIcon.style.display = 'none';
-            }
-        });
-
-        // Close the dropdown if clicked outside
-        window.onclick = function(event) {
-            if (!event.target.matches('#downloadBtn') && !event.target.parentElement.matches('#downloadBtn')) {
-                const dropdowns = document.getElementsByClassName('dropdown-content');
-                for (let i = 0; i < dropdowns.length; i++) {
-                    const openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        };
-
-        // Handle resume download options
-        document.getElementById('softwareEngineer').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Downloading Software Engineer Resume...');
-            // In a real implementation, this would trigger a download of the specific resume
-        });
-
-        document.getElementById('dataScientist').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Downloading Data Scientist Resume...');
-        });
-
-        document.getElementById('uiuxDesigner').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Downloading UI/UX Designer Resume...');
-        });
-    </script>
 </body>
 </html>

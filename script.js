@@ -24,18 +24,19 @@ document.querySelectorAll('.section').forEach(section => {
             case 'skills':
                 detailContent = `
                     <div class="detail-content">
-                        <h3>My Professional Capabilities</h3>
+                        <h3 class="sidebar-heading">My Professional Capabilities</h3>
                         
-                        <h4>Software Engineering</h4>
+                        <h4 class="skill-area-heading">Software Engineering</h4>
                         <p>With proficiency in Python, Java, C, and web technologies (HTML, CSS, JavaScript), I can develop robust applications across various platforms. My experience with data structures, algorithms, and object-oriented programming enables me to create efficient, scalable solutions. Tools like Git, GitHub, and testing frameworks support my development workflow.</p>
                         
-                        <h4>UI/UX Design</h4>
+                        <h4 class="skill-area-heading">UI/UX Design</h4>
                         <p>My design skills with Figma, Adobe XD, and Canva allow me to create intuitive, user-centered interfaces. I've designed multiple systems including MealPlan, DroneDrop, and School Management dashboards, focusing on user experience and accessibility. My understanding of responsive design principles ensures applications work seamlessly across all devices.</p>
                         
-                        <h4>Data Science & AI</h4>
+                        <h4 class="skill-area-heading">Data Science & AI</h4>
                         <p>I've developed skills in AI chatbots, prompt engineering, and deep learning. My work with the Twi Transcription Model demonstrates my ability to fine-tune AI models for specific applications. Using tools like Jupyter and Python libraries, I can analyze data, build models, and extract meaningful insights to drive decision-making.</p>
+                        <p><strong>Data Science/AI Tools:</strong> TensorFlow, PyTorch, Scikit-learn, Pandas, NumPy, Matplotlib.</p>
                         
-                        <h4>Embedded Systems</h4>
+                        <h4 class="skill-area-heading">Embedded Systems</h4>
                         <p>My experience with Arduino, Raspberry Pi, STM32, and ESP32 enables me to develop hardware solutions for real-world problems. I've created systems for attendance tracking and other IoT applications, combining software expertise with hardware knowledge.</p>
                     </div>
                 `;
@@ -171,9 +172,14 @@ themeToggle.addEventListener('click', function() {
     }
 });
 
+// Toggle dropdown visibility when download button is clicked
+document.getElementById('downloadBtn').addEventListener('click', function() {
+    document.getElementById('myDropdown').classList.toggle('show');
+});
+
 // Close the dropdown if clicked outside
 window.onclick = function(event) {
-    if (!event.target.matches('#downloadBtn') && !event.target.parentElement.matches('#downloadBtn')) {
+    if (!event.target.matches('.download-btn') && !event.target.closest('.dropdown-content')) {
         const dropdowns = document.getElementsByClassName('dropdown-content');
         for (let i = 0; i < dropdowns.length; i++) {
             const openDropdown = dropdowns[i];
@@ -184,19 +190,20 @@ window.onclick = function(event) {
     }
 };
 
-// Handle resume download options
-document.getElementById('softwareEngineer').addEventListener('click', function(e) {
-    e.preventDefault();
-    alert('Downloading Software Engineer Resume...');
-    // In a real implementation, this would trigger a download of the specific resume
-});
-
-document.getElementById('dataScientist').addEventListener('click', function(e) {
-    e.preventDefault();
-    alert('Downloading Data Scientist Resume...');
-});
-
-document.getElementById('uiuxDesigner').addEventListener('click', function(e) {
-    e.preventDefault();
-    alert('Downloading UI/UX Designer Resume...');
+// Handle resume downloads
+document.querySelectorAll('.dropdown-content a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        // Check if file exists before attempting download
+        fetch(this.href)
+            .then(response => {
+                if (!response.ok) {
+                    e.preventDefault();
+                    alert('Sorry, this resume version is not available yet.');
+                }
+            })
+            .catch(error => {
+                e.preventDefault();
+                alert('Sorry, there was an error accessing the file.');
+            });
+    });
 });
